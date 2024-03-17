@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <center>
+    <h2>Random Quotes Generater</h2>
+    <div class="box" style="border: 2px dotted orange; width: 600px; font-size: x-large; height: 200px; color: gray; padding: 10px;">
+        <p id="quote"></p>
+       
+    </div>
+    <p>Quotes will change autometically every 2 Seconds. if click Next Quotes button</p>
+    <input type="button" value="Next Quotes" id="nextquotes">
+    <p>Stop current quote.</p>
+    <input type="button" value="Stop Quotes" id="stopquotes">
+</center>
+    <script>
+        let quote = document.querySelector('#quote');
+        let nextquotes =document.querySelector('#nextquotes')
+        let stopquotes = document.querySelector('#stopquotes')
+        let intervalid
+
+        async function quotes()
+        {
+            let response = await fetch('https://api.quotable.io/random')
+            let data = await response.json()
+            console.log(data);
+            quote.innerHTML=data.content + '   '+ '<br><b>Author : </b>'+ data.author
+        }
+        stopquotes.addEventListener('click',()=>{
+            clearInterval(intervalid)
+        })
+        nextquotes.addEventListener('click',()=>{
+            intervalid = setInterval(quotes, 2000); //Every 2sec  autometically change quotes
+        }) 
+        quotes(); // Display initial quote
+    </script>
+</body>
+</html>
